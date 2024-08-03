@@ -1,0 +1,50 @@
+\documentclass{article}
+\usepackage{amsmath} % Required for inserting images
+\title{Conjecture about subarray reversals}
+\author{Dmitriy Ivkov}
+\date{August 2024}
+
+\parindent 0pt
+\begin{document}
+
+    \maketitle
+
+    \textbf{Conjecture:} Any permutation of a finite ordered collection of objects can be created by reversing sub-arrays of the source array \\
+
+    \textbf{Setup} \\
+    Let \( S := (s_1, s_2, \cdots, s_n) \) be a finite ordered collection. \\
+    Let \(\pi(S)\) be a permutation of size \(n\) of the collection \(S\). \\
+    A sub-array reversal \(R(\text{collection}, \text{start}, \text{stop})\) is defined by taking any subset of \(S\) and reversing the order of every element within the subset. \\
+    Let \(S^{-1}(\text{elem})\) be a function to get the index of the first occurrence of an element in the collection \(S\). \\
+
+    Consider a procedure \(F(S, \pi(S))\) on a collection \(S\) and \(\pi(S)\) which:
+    \begin{enumerate}
+        \item Let \( \text{stop} = \pi(S)^{-1}(s_1) \): finds the index of \(s_1\) within \(\pi(S)\).
+        \item Performs \(R(\pi(S), 0, \text{stop})\): flips the subset from the first element to the first occurrence of the desired element.
+    \end{enumerate}
+
+    \textbf{Inductive Hypothesis} \\
+    Assume that any permutation of a collection of size \(k\) can be created by reversing sub-arrays of the source array. That is, for any permutation \(\pi\) of a collection \(S\) of size \(k\), there exists a sequence of sub-array reversals that transforms \(S\) into \(\pi\).
+
+    \textbf{Base Case} \\
+    For \(k = 1\), there is only one element in the collection. The only permutation is the collection itself, which trivially satisfies the hypothesis because no sub-array reversals are needed.
+
+    \textbf{Inductive Step} \\
+    Consider a collection \(S\) of size \(k+1\) and a permutation \(\pi\) of \(S\). We need to show that \(\pi\) can be obtained from \(S\) using sub-array reversals.
+
+    \begin{enumerate}
+        \item Find the position of the first element \(s_1\) of \(S\) in \(\pi(S)\). Let \(\text{stop} = \pi(S)^{-1}(s_1)\). We perform the reversal \(R(\pi(S), 0, \text{stop})\), which places \(s_1\) at the beginning of \(\pi(S)\) and reverses the order of all elements from index 0 to \(\text{stop}\).
+
+        \item After the reversal, the element \(s_1\) is now at the beginning of \(\pi(S)\). Now the problem reduces to transforming the sub-array starting from \(s_2\) to the end of \(S\) into the remaining portion of \(\pi(S)\). This remaining portion is a permutation of \(S' = (s_2, s_3, \ldots, s_{k+1})\), which is a collection of size \(k\).
+
+        \item By the inductive hypothesis, we can transform \(S'\) into the remaining part of \(\pi(S)\). Since \(S'\) is of size \(k\), by our inductive hypothesis, we know there exists a sequence of sub-array reversals that transforms \(S'\) into the remaining portion of \(\pi(S)\).
+
+        \item Combining these steps, we can transform \(S\) into \(\pi(S)\). First, apply the reversal \(R(\pi(S), 0, \text{stop})\), and then apply the sequence of reversals (from the inductive hypothesis) that transforms \(S'\) into the remaining portion of \(\pi(S)\).
+    \end{enumerate}
+
+    \textbf{Conclusion} \\
+    Thus, we have proven that any permutation of a finite ordered collection of objects can indeed be created by reversing sub-arrays of the source array.
+
+
+
+\end{document}
