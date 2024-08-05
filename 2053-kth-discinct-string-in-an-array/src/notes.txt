@@ -1,0 +1,2 @@
+solution 1 exec @ 3ms O(n^2)
+solution 2 exec @ 4ms O(n) - taken from leetcode
