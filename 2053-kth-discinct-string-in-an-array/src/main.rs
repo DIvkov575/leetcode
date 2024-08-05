@@ -10,39 +10,21 @@ fn main() {
 }
 
 pub fn kth_distinct(arr: Vec<String>, k: i32) -> String {
-    let mut map: HashMap<String, (u8, u16)> = HashMap::with_capacity(arr.len()/2);
-    let mut insert_ctr: u16 = 0;
-
-    for string in arr {
-        if map.contains_key(&string) {
-            map.get_mut(&string).unwrap().0 += 1;
-        } else {
-            insert_ctr += 1;
-            map.insert(string, (1, insert_ctr));
-        }
+    let mut map = std::collections::HashMap::new();
+    for s in arr.iter() {
+        *map.entry(s).or_insert(0) += 1;
     }
-
-
-
-    let mut out: Vec<(String, u16)> = map.iter().filter_map(|(a,(b,c))| if *b==1 {return Some((a.to_string(), *c))} else { None }).collect();
-    if out.len() < k as usize {
-        return "".to_string();
-    } else {
-        for i in 0..out.len() {
-            let mut min = i;
-            for j in (i+1)..out.len() {
-                if out[j].1 < out[min].1 {
-                    min = j;
+    let mut counter = 0;
+    for s in arr.iter() {
+        match map.get(&s) {
+            Some(1) => {
+                counter += 1;
+                if counter == k {
+                    return s.to_string();
                 }
-            }
-            let tmp = out[i].clone();
-            out[i] = out[min].clone();
-            out[min] = tmp;
-
-            if i == (k-1) as usize {
-                break
-            }
+            },
+            _ => {}
         }
-        return out[(k-1) as usize].0.to_string();
     }
+    String::new()
 }
